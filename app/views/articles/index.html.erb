@@ -1,0 +1,52 @@
+<h1>Listing articles</h1>
+
+<%= search_form_for @q, url: articles_path do |f| %>
+    <fieldset>
+      <legend>Article</legend>
+      <ul>
+        <li>
+          <%= f.label :title_cont %>
+          <%= f.search_field :title_cont %>
+        </li>
+        <li>
+          <%= f.label :title_or_body_cont %>
+          <%= f.search_field :title_or_body_cont %>
+        </li>
+        <li>
+          <%= f.label :user_id_in %>
+          <%= f.collection_select :user_id_in, User.all, :id, :info, {}, multiple: true %>
+        </li>
+      </ul>
+    </fieldset>
+    <%= f.submit %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Body</th>
+      <th>Rating</th>
+      <th>User</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @articles.each do |article| %>
+      <tr>
+        <td><%= article.title %></td>
+        <td><%= article.body %></td>
+        <td><%= article.rating %></td>
+        <td><%= article.user_info %></td>
+        <td><%= link_to 'Show', article %></td>
+        <td><%= link_to 'Edit', edit_article_path(article) %></td>
+        <td><%= link_to 'Destroy', article, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Article', new_article_path %>
